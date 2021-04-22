@@ -1,0 +1,105 @@
+<%- include(`./partials/htmlHeader`)%>
+<%- include(`./partials/htmlNavbarLandlord`)%>
+    <div class="container">
+        <h1>Halo <%=name%>! Selamat datang di dashboard iklan kamu</h1>
+        <div class="text-center">
+            <div class="row">
+                <%landlord.Ads.forEach(e=>{%>
+                    <div class="card col-sm-4 mx-auto mt-3" style="width: 18rem;">
+                        <img src="/<%=e.image%>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title"><%=e.name%></h5>
+                          <button class="btn btn-success" data-id="<%=e.name%>-<%=e.image%>-<%=e.location%>-<%=e.type%>-<%=e.totalroom%>-<%=e.availableroom%>-<%=e.joinPriceWithRenttype(moneyformatter)%>-<%=e.id%>" onclick="detail(this)">Lihat detail</button>
+                          <a href="/landlord/ads/delete/<%=e.id%>" class="btn btn-success">Hapus iklan</a>
+                        </div>
+                    </div>
+                <%})%>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal fade in">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                 
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                </div>
+     
+                <div class="modal-body">
+                    <div class="card" style="width: 30rem;">
+                        <img class="card-img-top img-card" alt="...">
+                        <div class="card-body">
+                            <div class="row mt-3">
+                                <h5 class="card-title">Lokasi</h5>
+                                <p class="card-text location-card"></p>
+                                <input type="hidden" id="lat">
+                                <input type="hidden" id="lon">
+                                <div id="map" style="height: 180px;"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <h5 class="card-title">Tipe kost</h5>
+                                <p class="card-text type-card"></p>
+                            </div>
+                            <div class="row mt-3">
+                                <h5 class="card-title">Total ruangan</h5>
+                                <p class="card-text totalroom-card"></p>
+                            </div>
+                            <div class="row mt-3">
+                                <h5 class="card-title">Total siap booking</h5>
+                                <p class="card-text availableroom-card"></p>
+                            </div>
+                            <div class="row mt-3">
+                                <h5 class="card-title">Biaya</h5>
+                                <p class="card-text price-card"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+     
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <a class="btn btn-primary edit-ad-card">Edit Iklan Ini</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script>
+        function detail(e) {
+            let detail = e.getAttribute("data-id");
+            let title = detail.split('-')[0]
+            let image = detail.split(`-`)[1]
+            let location = detail.split(`-`)[2]
+            let type = detail.split(`-`)[3]
+            let totalroom = detail.split(`-`)[4]
+            let availableroom = detail.split(`-`)[5]
+            let price = detail.split(`-`)[6]
+            let id = detail.split(`-`)[7]
+            document.getElementsByClassName("modal-title")[0].innerHTML=`${title}`
+            document.getElementsByClassName("img-card")[0].src=`/${image}`
+            document.getElementsByClassName("location-card")[0].innerHTML=`${location}`
+            document.getElementsByClassName("type-card")[0].innerHTML=`${type}`
+            document.getElementsByClassName("totalroom-card")[0].innerHTML=`${totalroom}`
+            document.getElementsByClassName("availableroom-card")[0].innerHTML=`${availableroom}`
+            document.getElementsByClassName("price-card")[0].innerHTML=`${price}`
+            document.getElementsByClassName("edit-ad-card")[0].href = `/landlord/ads/update/${id}`
+            $("#myModal").modal("show");
+        }
+        // let latitude
+        // let longitude
+        // navigator.geolocation.getCurrentPosition((position)=>{
+        //     latitude = position.coords.latitude,
+        //     longitude = position.coords.longitude
+        //     document.getElementById(`lat`).value = latitude
+        //     document.getElementById(`lon`).value = longitude
+        // })
+        var map = L.map('map').setView([-6.1458732423683715, 106.67788396883434], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([51.5, -0.09]).addTo(map)
+    </script>
+<%- include(`./partials/htmlFooter`)%>
