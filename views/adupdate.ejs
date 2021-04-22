@@ -1,0 +1,121 @@
+<%- include(`./partials/htmlHeader`)%>
+<%- include(`./partials/htmlNavbarLandlord`)%>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-5">
+
+            <img src="/<%=ad.image%>" alt="" style="width: 14rem;">
+    
+                <form action="/landlord/ads/update/<%=ad.id%>" enctype="multipart/form-data" method="POST" id="form-update">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="name" class="form-label">Judul Iklan</label>
+                            <input type="text" class="form-control" id="name" name="name" value="<%=ad.name%>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="location" class="form-label">Lokasi</label>
+                            <input type="text" class="form-control" id="location" name="location" value="<%=ad.location%>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="type" class="form-label">Tipe kost</label>
+                            <select id="type" name="type" class="form-select">
+                                <%let type = ["campuran","pria","wanita"]%>
+                                <%for(let value of type){%>
+                                    <%if(ad.type == value){%>
+                                        <option value="<%=value%>" selected><%=value%></option>
+                                    <%} else {%>
+                                        <option value="<%=value%>"><%=value%></option>
+                                    <%}%>
+                                <%}%>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="totalroom" class="form-label">Total kamar</label>
+                            <input type="number" class="form-control" id="totalroom" name="totalroom" value="<%=ad.totalroom%>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="availableroom" class="form-label">Jumlah siap booking</label>
+                            <input type="number" class="form-control" id="availableroom" name="availableroom" value="<%=ad.availableroom%>" max="<%=ad.totalroom%>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="roomprice" class="form-label">Harga kamar</label>
+                            <input type="number" class="form-control" id="roomprice" name="roomprice" value="<%=ad.roomprice%>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="renttype" class="form-label">Tipe sewa</label>
+                            <select id="renttype" name="renttype" class="form-select">
+                                <%let renttype = {perhari : "Per Hari",perbulan : "Per Bulan",pertahun:"Per Tahun"}%>
+                                <%for(let value in renttype){%>
+                                    <%if(ad.type == value){%>
+                                        <option value="<%=value%>" selected><%=renttype[value]%></option>
+                                    <%} else {%>
+                                        <option value="<%=value%>"><%=renttype[value]%></option>
+                                    <%}%>
+                                <%}%>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary" form="form-update">Edit Iklan</button>
+                        <a href="/landlord" class="btn btn-primary">Gajadi</a>
+                    </div>
+                </form>
+        </div>
+        <div class="col-sm-5">
+
+            <form action="/landlord/ads/addFacilities/<%=ad.id%>" method="POST" id="form-facility">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="FacilityId" class="form-label">Tambah fasilitas</label>
+                        <select id="FacilityId" name="FacilityId" class="form-select">
+                            <%facility.forEach(e=>{%>
+                                <option value="<%=e.id%>"><%=e.type%></option>
+                            <%})%>
+                        </select>
+                    </div>
+                    <div class="col-sm-6" style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary" form="form-facility">Tambah Fasilitas</button>
+                    </div>
+                </div>
+            </form>
+            <%if(notNullFac.length>0){%>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%=notNullFac%>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+            <%}%>
+            <table class='table table-hover'>
+                <thead class='table-primary'>
+                    <tr>
+                        <th>Fasilitas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% ad.Facilities.forEach((e)=>{%>
+                    <tr>
+                        <td>
+                            <%=e.type%>
+                        </td>
+                    </tr>
+                    <%})%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<%- include(`./partials/htmlFooter`)%>

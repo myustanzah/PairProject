@@ -1,0 +1,65 @@
+<%- include(`./partials/htmlHeader`)%>
+<%- include(`./partials/htmlNavbarLandlord`)%>
+<div class="container">
+    
+    <form action="/landlord/ads/add/<%=landlord.id%>" enctype="multipart/form-data" method="POST">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="name" class="form-label">Judul Iklan</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="image" class="form-label">Unggah Foto Bangunan</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="location" class="form-label">Lokasi</label>
+                <input type="text" class="form-control" id="location" name="location">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="type" class="form-label">Tipe kost</label>
+                <select id="type" name="type" class="form-select">
+                    <option value="campuran">Campuran</option>
+                    <option value="pria">Pria</option>
+                    <option value="wanita">Wanita</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="totalroom" class="form-label">Total kamar</label>
+                <input type="number" class="form-control" id="totalroom" name="totalroom">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="roomprice" class="form-label">Harga kamar</label>
+                <input type="number" class="form-control" id="roomprice" name="roomprice">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="renttype" class="form-label">Tipe sewa</label>
+                <select id="renttype" name="renttype" class="form-select">
+                    <option value="perhari">Per Hari</option>
+                    <option value="perbulan">Per Bulan</option>
+                    <option value="pertahun">Per Tahun</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Pasang Iklan</button>
+            <a href="/landlord" class="btn btn-primary">Gajadi</a>
+        </div>
+    </form>
+
+</div>
+
+
+<%- include(`./partials/htmlFooter`)%>
